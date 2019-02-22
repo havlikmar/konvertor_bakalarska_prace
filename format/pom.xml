@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.github.havlikmar</groupId>
-  <artifactId>konvertor_bakalarska_prace</artifactId>
+  <artifactId>format</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>konvertor_bakalarska_prace</name>
+  <name>format</name>
   <url>http://maven.apache.org</url>
 
   <properties>
@@ -23,17 +23,18 @@
     </dependency>
     
     <dependency>
-   		<groupId>com.github.havlikmar</groupId>
-  		<artifactId>format</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-	</dependency>
-	
-	<dependency>
 		<groupId>com.opencsv</groupId>
 		<artifactId>opencsv</artifactId>
 		<version>3.8</version>
 	</dependency>
+    
+    <dependency>
+   		<groupId>com.github.havlikmar</groupId>
+  		<artifactId>konvertor_bakalarska_prace</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
   </dependencies>
+  
   <build>
         <plugins>            
             <plugin>
@@ -43,23 +44,16 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
-                </configuration>
-            </plugin>
-			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
                     <archive>
                         <manifest>
+                        	<manifestEntries>
+                        		<Built-By>Me</Built-By>
+             					<Class-Path>.</Class-Path>
+                    		</manifestEntries>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.github.havlikmar.konvertor_bakalarska_prace.main.App</mainClass>
+                            <mainClass>com.github.havlikmar.format.App</mainClass>
                         </manifest>
                     </archive>
-                    <module>
-                    	<moduleInfoFile>
-                        	${basedir}/src/main/java/module-info.java
-                    	</moduleInfoFile>                
-                	</module>
                 </configuration>
             </plugin>
         </plugins>
