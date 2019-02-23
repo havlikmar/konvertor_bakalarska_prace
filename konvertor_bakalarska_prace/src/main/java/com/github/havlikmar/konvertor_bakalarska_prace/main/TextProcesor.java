@@ -5,6 +5,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 import com.github.havlikmar.konvertor_bakalarska_prace.logic.Convertor;
+import com.github.havlikmar.konvertor_bakalarska_prace.logic.FormatType;
 
 /**
  * Třída TextProcesor je zodpovědná za implementaci textového rozhraní mezi uživatelem a počítačem
@@ -16,6 +17,7 @@ public class TextProcesor {
 	private Convertor convertor;
 	private Scanner scanner;
 	private Set<String> formatsName;
+	private boolean isMainFile = true;
 	
 	/**
      * Kontruktor pro vytvoření instance třídy TextProcesor a zahájení textového rozhraní.
@@ -76,20 +78,52 @@ public class TextProcesor {
 		return inputText;
 	}
 	
-	public void selectSource(String outputTrue) {
-		try {
-			boolean isCorect = false;
-			String outputFalse = "";
-			while (!isCorect) {
-				System.out.println(outputFalse + outputTrue);
-				convertor.setMainFile(loadTextInput());	
-				isCorect = convertor.getFormat(1).loadFormat(convertor);
-				outputFalse = "Soubor neexistuje, nebo neodpovídá zvolenému formátu. ";
-			}	
-		}
-		
-		catch (FileNotFoundException e) {
+	public void selectSource(String outputTrue, FormatType type) {
+		boolean isCorect = false;
+		String outputFalse = "";
+		String nameOfSource = "";
+		while (!isCorect) {
+			System.out.println(outputFalse + outputTrue);
+			nameOfSource = loadTextInput();
+			boolean isSeparator = false;
+			String separator = ",";
+			String output = "Zadejte separator.";
+			while (!isSeparator) {
+				System.out.println(output);
+				separator = loadTextInput();
+				if (separator.length() == 1) {
+					isSeparator = true;
+				}
+				output = "Chybně zadaný separátor. Musí mít pouze jeden znak. " + output;
+			}
 			
+			isCorect = convertor.getFormat(type).loadFormat(convertor, nameOfSource, separator.charAt(0));
+			outputFalse = "Soubor neexistuje, nebo neodpovídá zvolenému formátu. ";
+		}
+		if (isMainFile) {
+			convertor.setMainFile(nameOfSource);
+			isMainFile = false;
+		}
+	}
+	
+	public void selectOtherSources() {
+		if (convertor.getFormat(FormatType.IMPORT).isNormalize()) {
+			boolean anotherFile = true;
+			while (anotherFile) {
+				selectSource("Zadejte název vedlejšího (dimensionálního) vstupniho souboru.", FormatType.IMPORT);
+				boolean isCorect = false;
+				while (!isCorect) {
+					System.out.println("Přejete si přidat další vedlejší formát. [Y/N]");
+					String answer = loadTextInput();
+					switch (answer) {
+						case "Y": 	isCorect = true;
+									break;
+						case "N": 	isCorect = true;
+									anotherFile = false;
+									break;
+					}
+				}
+			}
 		}
 	}
 	
@@ -100,23 +134,12 @@ public class TextProcesor {
 	public void textLogic() {
 		convertor.setStartFormat(selectFormat("Vyberte vstupni format."));
 		convertor.setEndFormat(selectFormat("Vyberte vystupni format."));
-		selectSource("Zadejte název hlavního vstupniho souboru.");
-		if (!convertor.getFormat(1).isNormalize()) {
-			boolean anotherFile = true;
-			while (anotherFile) {
-//				selectSource("Zadejte název vedlejšího (dimensionálního) vstupniho souboru.");
-				boolean isCorect = false;
-				while (!isCorect) {
-					System.out.println("Přejete si přidat další vedlejší formát. [Y/N]");
-					String answer = loadTextInput();
-					System.out.println(answer);
-					switch (answer) {
-						case "Y": 	isCorect = true;
-						case "N": 	isCorect = true;
-									anotherFile = false;
-					}
-				}
-			}
+		selectSource("Zadejte název hlavního vstupniho souboru.", FormatType.IMPORT);
+		selectOtherSources();
+		if (convertor.getFormat(FormatType.EXPORT).saveFormat(convertor)) {
+			System.out.println("Transformace proběhla v pořádku");
+		} else {
+			System.out.println("Při transforamci došlo k nečekané chybě");
 		}
 	}	
 }

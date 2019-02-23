@@ -2,6 +2,7 @@ package com.github.havlikmar.konvertor_bakalarska_prace.logic;
 
 import java.util.HashMap;
 import java.util.ServiceLoader;
+import java.util.Set;
 
 /**
  * Třída Convertor je v návrhovém vzoru Strategie zodpovědný za přenos dat mezi logikou (kde jsou data uloženy)
@@ -15,7 +16,6 @@ public class Convertor {
 	private String startFormat;
 	private String endFormat;
 	private String mainFile;
-	private String otherFile;
 	private HashMap<String, Table> tableList;
 	
 	/**
@@ -26,6 +26,14 @@ public class Convertor {
 		tableList = new HashMap<String, Table>();
 		loadFormat();
 	};
+	
+	public void setMainFile (String nameOfFile) {
+		mainFile = nameOfFile;
+	}
+	
+	public String getMainFile () {
+		return mainFile;
+	}
 	
 	/**
      * Metoda pro načtení formátů. Slouží k iniciaci tříd formátů z externích modulů mimo tento baliček.
@@ -66,29 +74,20 @@ public class Convertor {
 		this.endFormat = endFormat;
 	}
 	
-	public void addTable (String nameOfTable) {
-		Table newtable = new Table(nameOfTable);
-		tableList.put(nameOfTable, newtable);
+	public void addTable(String nameOfTable, Table newTable) {
+		tableList.put(nameOfTable, newTable);
 	}
 	
 	public Table getTable(String nameOfTable) {
 		return tableList.get(nameOfTable);
 	}
 	
-	public void setMainFile (String mainFile) {
-		this.mainFile = mainFile;
+	public void removeTable(String nameOfTable) {
+		this.tableList.remove(nameOfTable);
 	}
 	
-	public void addOtherFile (String otherFile) {
-		this.otherFile = otherFile;
-	}
-	
-	public String getMainFile () {
-		return mainFile;
-	}
-	
-	public String getOtherFile () {
-		return otherFile;
+	public Set<String> getTables(){
+		return tableList.keySet();
 	}
 	
 	/**
@@ -97,10 +96,10 @@ public class Convertor {
      * @param	type	rozlišení zda jde o zdrojový nebo cílový formát
      * @return	IFormat Daný zdrojový nebo cílový formát
      */
-	public IFormat getFormat (int type) {
+	public IFormat getFormat (FormatType type) {
 		switch (type){
-			case 1: return formatList.get(startFormat);
-			case 2: return formatList.get(endFormat);
+			case IMPORT: return formatList.get(startFormat);
+			case EXPORT: return formatList.get(endFormat);
 		}
 		return null;
 	}

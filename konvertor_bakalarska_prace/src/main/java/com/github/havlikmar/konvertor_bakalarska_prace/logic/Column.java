@@ -11,6 +11,7 @@ public class Column {
 	public Column (String name) {
 		this.name = name;
 		metadataList = new HashMap<String, Metadata>();
+		valueList = new  ArrayList<String>();
 	}
 	
 	public void addValue (String value) {
