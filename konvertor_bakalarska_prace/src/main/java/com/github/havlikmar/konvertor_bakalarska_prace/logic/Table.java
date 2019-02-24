@@ -35,5 +35,7 @@ public class Table {
 		this.getColumns().remove(nameOfColumn);
 	}
 	
-	
+	public boolean columnExist(String nameOfColumn) {
+		return columnMap.containsKey(nameOfColumn);
+	}
 }

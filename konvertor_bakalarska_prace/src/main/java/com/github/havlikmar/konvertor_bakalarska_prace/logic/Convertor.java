@@ -103,4 +103,14 @@ public class Convertor {
 		}
 		return null;
 	}
+	
+	/**
+     * Metoda pro zjištění zda tabulka je již vytvořená
+     * 
+     * @param	nameOfTable	Název hledané tabulky
+     * @return	informace zda je tabulka vytvořená
+     */
+	public boolean tableExist(String nameOfTable) {
+		return tableList.containsKey(nameOfTable);
+	}
 }

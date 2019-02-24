@@ -21,4 +21,8 @@ public class Column {
 	public ArrayList<String> getValues(){
 		return valueList;
 	}
+	
+	public String getName() {
+		return name;
+	}
 }

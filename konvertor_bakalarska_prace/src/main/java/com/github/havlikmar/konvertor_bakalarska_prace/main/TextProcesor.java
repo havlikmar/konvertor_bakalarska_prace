@@ -1,6 +1,5 @@
 package com.github.havlikmar.konvertor_bakalarska_prace.main;
 
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -56,8 +55,8 @@ public class TextProcesor {
 	/**
      * Metoda pro zpracování výběru formátu
      * 
-     * @param	text	rozlišení zda jde o zdrojový nebo cílový formát
-     * @return	String	Dodatečný text, lišicí se oproti zbytku 
+     * @param	text	Úvodní text vypsaný pro uživatele
+     * @return	String	Reakce uživatele
      */
 	public String selectFormat(String text) {
 		String inputText = null;
@@ -78,6 +77,12 @@ public class TextProcesor {
 		return inputText;
 	}
 	
+	/**
+     * Metoda pro zpracování výběru vstupních souborů
+     * 
+     * @param	outputTrue	úvodní text vypsáný pro uživatele
+     * @param	type	Informace zda jde o vstupní nebo výstupní formát
+     */
 	public void selectSource(String outputTrue, FormatType type) {
 		boolean isCorect = false;
 		String outputFalse = "";
@@ -85,6 +90,10 @@ public class TextProcesor {
 		while (!isCorect) {
 			System.out.println(outputFalse + outputTrue);
 			nameOfSource = loadTextInput();
+			if (convertor.tableExist(nameOfSource)) {
+				outputFalse = "Zadaný soubor již byl vybrán. ";
+				continue;
+			}
 			boolean isSeparator = false;
 			String separator = ",";
 			String output = "Zadejte separator.";
@@ -100,12 +109,16 @@ public class TextProcesor {
 			isCorect = convertor.getFormat(type).loadFormat(convertor, nameOfSource, separator.charAt(0));
 			outputFalse = "Soubor neexistuje, nebo neodpovídá zvolenému formátu. ";
 		}
+		
 		if (isMainFile) {
 			convertor.setMainFile(nameOfSource);
 			isMainFile = false;
 		}
 	}
 	
+	/**
+     * Metoda pro zpracování výběru vedlejších souborů
+     */
 	public void selectOtherSources() {
 		if (convertor.getFormat(FormatType.IMPORT).isNormalize()) {
 			boolean anotherFile = true;

@@ -15,10 +15,24 @@ import com.github.havlikmar.konvertor_bakalarska_prace.logic.Table;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
+/**
+ * Třída CsvDen je zodpovědná za implementaci zpracování načítání a export transformovaných dat v denormalizovaném CSV.
+ * 
+ * @author     Martin Havlík
+ * @version    24.2.2019
+ */
 public class CsvDen implements IFormat {
 	private Scanner scanner;
 	private String updateTable;
 
+	/**
+     * Metoda pro uložení daného souboru do vnitřní paměti
+     * 
+     * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
+     * @param	nameOfSource	Název souboru, který chceme načíst do vnitřní paměti
+     * @param	separator	použitý separator, pro rozdělení řádku CSV na objekty
+     * @return informace zda se soubor načetl nebo ne
+     */
 	public boolean loadFormat(Convertor convertor, String nameOfSource, char separator) {
 		try {
 			String directory = System.getProperty("user.dir") + "\\" + nameOfSource;
@@ -29,6 +43,7 @@ public class CsvDen implements IFormat {
 			
 			for(String[] row: input) {
 				if (row.length != headerSize) {
+					importReader.close();
 					return false;
 				}
 			}
@@ -60,6 +75,12 @@ public class CsvDen implements IFormat {
 		return true;
 	}
 	
+	/**
+     * Metoda pro zobrazení sloupců hlavní tabulky (tabulky faktů)
+     * 
+     * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
+     * @return vracený seznam sloupců v podobě inline výpisu
+     */
 	public String getMainFileColumn(Convertor convertor) {
 		String mainFileColumn = "";
 		for (String column: convertor.getTable(convertor.getMainFile()).getColumns()) {
@@ -68,6 +89,12 @@ public class CsvDen implements IFormat {
 		return mainFileColumn;
 	}
 	
+	/**
+     * Metoda pro zobrazení sloupců vedlejší (dimenzionální) tabulky
+     * 
+     * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
+     * @return vracený seznam sloupců v podobě inline výpisu
+     */
 	public String getOtherFileColumn(Convertor convertor) {
 		String otherFileColumn = "";
 		String mainFile = convertor.getMainFile();
@@ -83,11 +110,16 @@ public class CsvDen implements IFormat {
 		return otherFileColumn;
 	}
 	
+	/**
+     * Metoda pro zpracování denormalizace v případě, že vstup je normalizovaný
+     * 
+     * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
+     * @return informace zda se denormalizace povedla nebo ne
+     */
 	public boolean denormalization (Convertor convertor) {
 		try {
 			int countOfFileOrigin = convertor.getTables().size()-1;
 			for (int countOfFile = 0; countOfFile < countOfFileOrigin; countOfFile++) {
-				System.out.println(convertor.getTables().size()-1);
 				boolean isMerge = false;
 				String[] answer = {};
 				while (!isMerge) {
@@ -133,6 +165,12 @@ public class CsvDen implements IFormat {
 		}
 	}
 	
+	/**
+     * Řídící metoda pro zpracování exportu souboru
+     * 
+     * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
+     * @return informace zda se soubor exportoval nebo ne
+     */
 	public boolean saveFormat(Convertor convertor) {
 		try {
 			if (!convertor.getFormat(FormatType.IMPORT).isNormalize()) {
@@ -144,11 +182,19 @@ public class CsvDen implements IFormat {
 				return false;
 			}
 		}
+		
 		catch (Exception e) {
 			return false;	
 		}
 	}
 	
+	/**
+     * Metoda pro zjištění zda se daný sloupec vyskytuje v hlavní tabulce (tabulce faktů)
+     * 
+     * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
+     * @param	answer	Vstup uživatele, který chceme ověřit
+     * @return informace zda v tabulce je nebo ne
+     */
 	public boolean isInMainFile (String[] answer, Convertor convertor) {
 		for (String column: convertor.getTable(convertor.getMainFile()).getColumns()) {
 			if (answer[0].equals(column)) {
@@ -158,6 +204,13 @@ public class CsvDen implements IFormat {
 		return false;
 	}
 	
+	/**
+     * Metoda pro zjištění zda se daný sloupec vyskytuje ve vedlejší (dimensionální) tabulce
+     * 
+     * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
+     * @param	answer	Vstup uživatele, který chceme ověřit
+     * @return informace zda v tabulce je nebo ne
+     */
 	public boolean isInOtherFile (String[] answer, Convertor convertor) {
 		for (String column: convertor.getTable(updateTable).getColumns()) {
 			if (answer[1].equals(column)) {
@@ -177,6 +230,12 @@ public class CsvDen implements IFormat {
 		return scanner.nextLine();
 	}
 	
+	/**
+     * Metoda pro samotnou implementaci zpracování exportu souboru
+     * 
+     * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
+     * @return informace zda se soubor exportoval nebo ne
+     */
 	public boolean saveOneFile(Convertor convertor) {
 		try {
 			String nameOfSource = convertor.getMainFile();
@@ -210,6 +269,12 @@ public class CsvDen implements IFormat {
 		}
 	}
 	
+	/**
+     * Metoda pro změnu ArrayListu na pole Stringů
+     * 
+     * @param	list	Vstupní ArrayList
+     * @return Výstupní pole Stringů
+     */
 	public String[] changeToStringArray(ArrayList<String> list) {
 		String[] newList = new String[list.size()];
 		for (int i = 0; i < list.size(); i++) {
@@ -218,10 +283,20 @@ public class CsvDen implements IFormat {
 		return newList;
 	}
 	
+	/**
+     * Metoda pro zjištění názvu formátu
+     * 
+     * @return Název formátu
+     */
 	public String getName() {
 		return "CsvDen";
 	}
 	
+	/**
+     * Metoda pro zjištění zda je formát normalizovaný nebo ne
+     * 
+     * @return informace zda je formát normalizovaný nebo ne
+     */
 	public boolean isNormalize() {
 		return false;
 	}
