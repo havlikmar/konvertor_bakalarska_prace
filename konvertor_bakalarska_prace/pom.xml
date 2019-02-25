@@ -24,7 +24,7 @@
     
     <dependency>
    		<groupId>com.github.havlikmar</groupId>
-  		<artifactId>format</artifactId>
+  		<artifactId>csv</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
 	</dependency>
 	
@@ -43,23 +43,12 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
-                </configuration>
-            </plugin>
-			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <mainClass>com.github.havlikmar.konvertor_bakalarska_prace.main.App</mainClass>
                         </manifest>
                     </archive>
-                    <module>
-                    	<moduleInfoFile>
-                        	${basedir}/src/main/java/module-info.java
-                    	</moduleInfoFile>                
-                	</module>
                 </configuration>
             </plugin>
         </plugins>

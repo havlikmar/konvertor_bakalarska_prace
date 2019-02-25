@@ -1,4 +1,4 @@
-package com.github.havlikmar.format.logic;
+package com.github.havlikmar.csv.logic;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
