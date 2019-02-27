@@ -31,9 +31,10 @@
 	<dependency>
 		<groupId>com.opencsv</groupId>
 		<artifactId>opencsv</artifactId>
-		<version>3.8</version>
+		<version>4.5</version>
 	</dependency>
   </dependencies>
+  
   <build>
         <plugins>            
             <plugin>
@@ -43,6 +44,12 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                </configuration>
+            </plugin>
+             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>

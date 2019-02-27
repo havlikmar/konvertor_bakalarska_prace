@@ -27,10 +27,20 @@ public class Convertor {
 		loadFormat();
 	};
 	
+	/**
+     * Metoda pro nastavení hlavního souboru (tabulky faktů)
+     * 
+     * @param	nameOfFile	název hlavního souboru
+     */
 	public void setMainFile (String nameOfFile) {
 		mainFile = nameOfFile;
 	}
 	
+	/**
+     * Metoda pro získání hlavního souboru (tabulky faktů)
+     * 
+     * @return   String vyjadřující název souboru
+     */
 	public String getMainFile () {
 		return mainFile;
 	}
@@ -74,18 +84,40 @@ public class Convertor {
 		this.endFormat = endFormat;
 	}
 	
+	/**
+     * Metoda pro přidání tabulky do Mapy
+     * 
+     * @param	nameOfTable	název tabulky
+     * @param	newTable	nová tabulka
+     */
 	public void addTable(String nameOfTable, Table newTable) {
 		tableList.put(nameOfTable, newTable);
 	}
 	
+	/**
+     * Metoda pro získání tabulky
+     * 
+     * @param	nameOfTable	název tabulky
+     * @return	Odkaz na danou tabulku
+     */
 	public Table getTable(String nameOfTable) {
 		return tableList.get(nameOfTable);
 	}
 	
+	/**
+     * Metoda pro odstranění tabulky se seznamu
+     * 
+     * @param	nameOfTable	název tabulky
+     */
 	public void removeTable(String nameOfTable) {
 		this.tableList.remove(nameOfTable);
 	}
 	
+	/**
+     * Metoda pro získání názvů všech tabulek
+     * 
+     * @return	Množina názvů tabulek
+     */
 	public Set<String> getTables(){
 		return tableList.keySet();
 	}

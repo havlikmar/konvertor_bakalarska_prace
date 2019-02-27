@@ -36,6 +36,7 @@ public class CsvDen implements IFormat {
 	public boolean loadFormat(Convertor convertor, String nameOfSource, char separator) {
 		try {
 			String directory = System.getProperty("user.dir") + "\\" + nameOfSource;
+			@SuppressWarnings("deprecation")
 			CSVReader importReader = new CSVReader(new FileReader(directory), separator);
 			List<String[]> input = importReader.readAll();
 			String[] header = input.get(0);
@@ -227,7 +228,11 @@ public class CsvDen implements IFormat {
      */
 	public String loadTextInput() {
 		scanner = new Scanner(System.in);
-		return scanner.nextLine();
+		String answer = scanner.nextLine();
+		if (answer.equals("stop aplication")) {
+			System.exit(0);
+		}
+		return answer;
 	}
 	
 	/**

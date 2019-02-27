@@ -36,6 +36,7 @@ public class CsvNor implements IFormat{
 	public boolean loadFormat(Convertor convertor, String nameOfSource, char separator) {
 		try {
 			String directory = System.getProperty("user.dir") + "\\" + nameOfSource;
+			@SuppressWarnings("deprecation")
 			CSVReader importReader = new CSVReader(new FileReader(directory), separator);
 			List<String[]> input = importReader.readAll();
 			String[] header = input.get(0);
@@ -143,36 +144,30 @@ public class CsvNor implements IFormat{
 				int index = 0;
 				int positionInNewFile = 0;
 				int positionAnswer = 0;
+				
 				for (String[] k: moveColumn) {
 					if (positionAnswer > answer.length) {
 						break;
 					}
 					boolean isInColumn = false; 
 					for (int j = index; j < size; j++) {
-						if(k[i].equals(convertor.getTable(nameOfFile).getColumn(answer[positionAnswer]).getValues().get(j))) {
-							if (positionAnswer > 0) {
-								String newTableAncestorValue = convertor.getTable(nameOfFile).getColumn(answer[positionAnswer-1]).getValues().get(j);
-								String oldTableAncestorValue = convertor.getTable(thisFile).getColumn(answer[positionAnswer-1]).getValues().get(i);
-								if (newTableAncestorValue.equals(oldTableAncestorValue)) {
-									isInColumn = true;
-									index = j;
-									positionAnswer ++;
-									if (positionAnswer == answer.length) {
-										positionInNewFile = j+1;
-										convertor.getTable(thisFile).getColumn(nameOfColumn).addValue(Integer.toString(positionInNewFile));
-									}
-									break;	
-								}
-							} else {
-								isInColumn = true;
-								index = j;
-								positionAnswer ++;
-								if (positionAnswer == answer.length) {
-									positionInNewFile = j+1;
-									convertor.getTable(thisFile).getColumn(nameOfColumn).addValue(Integer.toString(positionInNewFile));
-								}
+						boolean isInFile = true;
+						for (int ancestor = 0; ancestor <= positionAnswer; ancestor++) {
+							if (!convertor.getTable(thisFile).getColumn(answer[ancestor]).getValues().get(i).equals(convertor.getTable(nameOfFile).getColumn(answer[ancestor]).getValues().get(j))) {
+								isInFile = false;
 								break;
 							}
+						}
+						
+						if (isInFile) {
+							isInColumn = true;
+							index = j;
+							positionAnswer ++;
+							if (positionAnswer == answer.length) {
+								positionInNewFile = j+1;
+								convertor.getTable(thisFile).getColumn(nameOfColumn).addValue(Integer.toString(positionInNewFile));
+							}
+							break;	
 						}
 					}
 					
@@ -230,7 +225,11 @@ public class CsvNor implements IFormat{
      */
 	public String loadTextInput() {
 		scanner = new Scanner(System.in);
-		return scanner.nextLine();
+		String answer = scanner.nextLine();
+		if (answer.equals("stop aplication")) {
+			System.exit(0);
+		}
+		return answer;
 	}
 	
 	/**

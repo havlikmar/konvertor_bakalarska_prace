@@ -25,6 +25,13 @@ public class TextProcesor {
      */
 	public TextProcesor (Convertor convertor) {
 		this.convertor = convertor;
+	}
+	
+	/**
+     * Metoda pro inicializaci aplikace
+     * 
+     */
+	public void initialization() {
 		textLogic();
 	}
 	
@@ -49,7 +56,11 @@ public class TextProcesor {
      */
 	public String loadTextInput() {
 		scanner = new Scanner(System.in);
-		return scanner.nextLine();
+		String answer = scanner.nextLine();
+		if (answer.equals("stop aplication")) {
+			System.exit(0);
+		}
+		return answer;
 	}
 	
 	/**
