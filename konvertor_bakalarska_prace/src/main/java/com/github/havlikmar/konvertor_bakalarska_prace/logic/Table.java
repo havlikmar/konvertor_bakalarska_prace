@@ -2,10 +2,10 @@ package com.github.havlikmar.konvertor_bakalarska_prace.logic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 public class Table {
 	private HashMap<String, Metadata> metadataList;
-	private ArrayList<String> valueList;
 	private HashMap<String, Column> columnMap;
 	private ArrayList<String> columnList;
 	private String name;
@@ -15,6 +15,12 @@ public class Table {
 		columnMap = new HashMap<String, Column>();
 		columnList = new ArrayList<String>();
 		this.name = name;
+	}
+	
+	public void addMetadata(String name, ArrayList<String> value) {
+		Metadata metadata = new Metadata();
+		metadata.setMetadata(name,value);
+		metadataList.put(name, metadata);
 	}
 	
 	public void addColumn(String nameColumn) {
@@ -37,5 +43,17 @@ public class Table {
 	
 	public boolean columnExist(String nameOfColumn) {
 		return columnMap.containsKey(nameOfColumn);
+	}
+	
+	public boolean containMetadata(String nameOfMetadata) {
+		return metadataList.containsKey(nameOfMetadata);
+	}
+	
+	public Metadata getMetadata(String nameOfMetadata) {
+		return metadataList.get(nameOfMetadata);
+	}
+	
+	public Set<String> getMetadatas() {
+		return metadataList.keySet();
 	}
 }

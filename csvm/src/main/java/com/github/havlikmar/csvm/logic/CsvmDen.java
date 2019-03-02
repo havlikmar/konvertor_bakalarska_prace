@@ -1,21 +1,42 @@
-package com.github.havlikmar.csv.logic;
+package com.github.havlikmar.csvm.logic;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+
 import com.github.havlikmar.konvertor_bakalarska_prace.logic.Convertor;
 import com.github.havlikmar.konvertor_bakalarska_prace.logic.FormatType;
 import com.github.havlikmar.konvertor_bakalarska_prace.logic.IFormat;
+import com.github.havlikmar.konvertor_bakalarska_prace.logic.Metadata;
+import com.github.havlikmar.konvertor_bakalarska_prace.logic.Table;
+import com.opencsv.CSVReader;
 
-/**
- * Třída CsvDen je zodpovědná za implementaci zpracování načítání a export transformovaných dat v denormalizovaném CSV.
- * 
- * @author     Martin Havlík
- * @version    24.2.2019
- */
-public class CsvDen implements IFormat {
-	private Scanner scanner;
+public class CsvmDen implements IFormat {
+	String metaDictionary = "metadictionary.csv";
 	private String updateTable;
+	private Scanner scanner;
 
+	/**
+     * Metoda pro zjištění zda je formát normalizovaný nebo ne
+     * 
+     * @return informace zda je formát normalizovaný nebo ne
+     */
+	public boolean isNormalize() {
+		return false;
+	}
+	
+	/**
+     * Metoda pro zjištění názvu formátu
+     * 
+     * @return Název formátu
+     */
+	public String getName() {
+		return "CsvmDen";
+	}
+	
 	/**
      * Metoda pro uložení daného souboru do vnitřní paměti
      * 
@@ -25,22 +46,89 @@ public class CsvDen implements IFormat {
      * @return informace zda se soubor načetl nebo ne
      */
 	public boolean loadFormat(Convertor convertor, String nameOfSource, char separator) {
-		LoaderFormat loaderClass = new LoaderFormat(convertor, nameOfSource, separator);
+		LoaderFormat loaderClass = new LoaderFormat(convertor, nameOfSource, separator, getName());
 		return loaderClass.load();
 	}
 	
 	/**
-     * Metoda pro zobrazení sloupců hlavní tabulky (tabulky faktů)
+     * Metoda pro zpracování importu slovniku metadat
      * 
      * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
-     * @return vracený seznam sloupců v podobě inline výpisu
+     * @return informace zda se soubor importoval nebo ne
      */
-	public String getMainFileColumn(Convertor convertor) {
-		String mainFileColumn = "";
-		for (String column: convertor.getTable(convertor.getMainFile()).getColumns()) {
-			mainFileColumn = mainFileColumn + " " + column;
+	public boolean loadMetadata(Convertor convertor) {
+		try {
+			String directory = System.getProperty("user.dir") + "\\" + metaDictionary;
+			CSVReader importReader = new CSVReader(new FileReader(directory));
+			List<String[]> input = importReader.readAll();
+			String[] specific = new String[input.size()];
+			String[] general = new String[input.size()];
+			int size = 0;
+			for (String[] k: input) {
+				specific[size] = k[0];
+				general[size]= k[1];
+				size++;
+			}	
+			convertor.addMetadictionary(specific, general, getName());
+			importReader.close();
+			return true;
 		}
-		return mainFileColumn;
+		
+		catch (FileNotFoundException e) { 	
+			return false;
+		}
+		
+		catch (IOException e) {
+			return false;
+		}
+	}
+	
+	/**
+     * Řídící metoda pro zpracování exportu souboru
+     * 
+     * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
+     * @return informace zda se soubor exportoval nebo ne
+     */
+	public boolean saveFormat(Convertor convertor) {
+		try {
+			if (!convertor.getFormat(FormatType.IMPORT).isNormalize()) {
+				return saveOneFile(convertor);
+			} else {
+				if (denormalization(convertor)) {
+					return saveOneFile(convertor);
+				}
+				return false;
+			}
+		}
+		
+		catch (Exception e) {
+			return false;	
+		}
+	}
+	
+	/**
+     * Metoda pro samotnou implementaci zpracování exportu souboru
+     * 
+     * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
+     * @return informace zda se soubor exportoval nebo ne
+     */
+	public boolean saveOneFile(Convertor convertor) {
+		FileExporter fileExporter = new FileExporter(convertor);
+		return fileExporter.exportFile();
+	}
+	
+	/**
+     * Metoda pro načtení reakce uživatele
+     * 
+     * @return	String Vstup uživatele
+     */
+	public String loadTextInput() {
+		scanner = new Scanner(System.in);
+		String answer = scanner.nextLine();
+		if (answer.equals("stop application")) {
+			System.exit(0);
+		}
+		return answer;
 	}
 	
 	/**
@@ -93,6 +181,10 @@ public class CsvDen implements IFormat {
 				for (String column: convertor.getTable(updateTable).getColumns()) {
 					if (!column.equals(answer[1])) {
 						convertor.getTable(mainFile).addColumn(column);
+						for (String meta: convertor.getTable(updateTable).getColumn(column).getMetadatas()) {
+							Metadata metadata = convertor.getTable(updateTable).getColumn(column).getMetadata(meta);
+							convertor.getTable(mainFile).getColumn(column).addMetadata(metadata.getName(), metadata.getMetadata());
+						}
 						newColumn.add(column);
 					}
 				}
@@ -120,26 +212,19 @@ public class CsvDen implements IFormat {
 	}
 	
 	/**
-     * Řídící metoda pro zpracování exportu souboru
+     * Metoda pro zjištění zda se daný sloupec vyskytuje ve vedlejší (dimensionální) tabulce
      * 
      * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
-     * @return informace zda se soubor exportoval nebo ne
+     * @param	answer	Vstup uživatele, který chceme ověřit
+     * @return informace zda v tabulce je nebo ne
      */
-	public boolean saveFormat(Convertor convertor) {
-		try {
-			if (!convertor.getFormat(FormatType.IMPORT).isNormalize()) {
-				return saveOneFile(convertor);
-			} else {
-				if (denormalization(convertor)) {
-					return saveOneFile(convertor);
-				}
-				return false;
+	public boolean isInOtherFile (String[] answer, Convertor convertor) {
+		for (String column: convertor.getTable(updateTable).getColumns()) {
+			if (answer[1].equals(column)) {
+				return true;
 			}
 		}
-		
-		catch (Exception e) {
-			return false;	
-		}
+		return false;
 	}
 	
 	/**
@@ -159,61 +244,16 @@ public class CsvDen implements IFormat {
 	}
 	
 	/**
-     * Metoda pro zjištění zda se daný sloupec vyskytuje ve vedlejší (dimensionální) tabulce
+     * Metoda pro zobrazení sloupců hlavní tabulky (tabulky faktů)
      * 
      * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
-     * @param	answer	Vstup uživatele, který chceme ověřit
-     * @return informace zda v tabulce je nebo ne
+     * @return vracený seznam sloupců v podobě inline výpisu
      */
-	public boolean isInOtherFile (String[] answer, Convertor convertor) {
-		for (String column: convertor.getTable(updateTable).getColumns()) {
-			if (answer[1].equals(column)) {
-				return true;
-			}
+	public String getMainFileColumn(Convertor convertor) {
+		String mainFileColumn = "";
+		for (String column: convertor.getTable(convertor.getMainFile()).getColumns()) {
+			mainFileColumn = mainFileColumn + " " + column;
 		}
-		return false;
-	}
-	
-	/**
-     * Metoda pro načtení reakce uživatele
-     * 
-     * @return	String Vstup uživatele
-     */
-	public String loadTextInput() {
-		scanner = new Scanner(System.in);
-		String answer = scanner.nextLine();
-		if (answer.equals("stop application")) {
-			System.exit(0);
-		}
-		return answer;
-	}
-	
-	/**
-     * Metoda pro samotnou implementaci zpracování exportu souboru
-     * 
-     * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
-     * @return informace zda se soubor exportoval nebo ne
-     */
-	public boolean saveOneFile(Convertor convertor) {
-		FileExporter fileExporter = new FileExporter(convertor);
-		return fileExporter.exportFile();
-	}
-	
-	/**
-     * Metoda pro zjištění názvu formátu
-     * 
-     * @return Název formátu
-     */
-	public String getName() {
-		return "CsvDen";
-	}
-	
-	/**
-     * Metoda pro zjištění zda je formát normalizovaný nebo ne
-     * 
-     * @return informace zda je formát normalizovaný nebo ne
-     */
-	public boolean isNormalize() {
-		return false;
+		return mainFileColumn;
 	}
 }

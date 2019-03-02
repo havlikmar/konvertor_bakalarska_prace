@@ -17,6 +17,7 @@ public class Convertor {
 	private String endFormat;
 	private String mainFile;
 	private HashMap<String, Table> tableList;
+	private HashMap<String, MetaDictionary> metaDictionaryList;
 	
 	/**
      * Konstruktor pro vytvoření instance convertoru
@@ -24,6 +25,7 @@ public class Convertor {
 	public Convertor(){
 		formatList = new HashMap<String, IFormat>();
 		tableList = new HashMap<String, Table>();
+		metaDictionaryList = new HashMap<String, MetaDictionary>();
 		loadFormat();
 	};
 	
@@ -52,9 +54,9 @@ public class Convertor {
 	public void loadFormat() {
 		ServiceLoader<IFormat> loader;
 		loader = ServiceLoader.load(IFormat.class);
-	       for (IFormat format : loader) {
-	    	   formatList.put(format.getName(), format);
-	       }
+	    for (IFormat format : loader) {
+	       formatList.put(format.getName(), format);
+	    }
 	}
 	
 	/**
@@ -144,5 +146,39 @@ public class Convertor {
      */
 	public boolean tableExist(String nameOfTable) {
 		return tableList.containsKey(nameOfTable);
+	}
+	
+	/**
+     * Metoda pro přidání nového slovníku metadat
+     * 
+     * @param	specific	metadata v daném formátu
+     * @param	general		metadata v obecném tvaru
+     * @param	format		název daného formátu
+     */
+	public void addMetadictionary(String[] specific, String[] general, String format) {
+		MetaDictionary metaDictionary = new MetaDictionary();
+		metaDictionaryList.put(format, metaDictionary);
+		getMetaDictionary(format).setToGeneral(specific, general);
+		getMetaDictionary(format).setFromGeneral(specific, general);
+	}
+	
+	/**
+     * Metoda pro získání slovníku metadat
+     * 
+     * @param	nameOfFormat		název daného formátu
+     * @return	daný slovník metadat
+     */
+	public MetaDictionary getMetaDictionary (String nameOfFormat) {
+		return metaDictionaryList.get(nameOfFormat);
+	}
+	
+	/**
+     * Metoda pro zjištění zda daný slovník metadat
+     * 
+     * @param	nameOfFormat		název daného formátu
+     * @return	informace zda daný slovník metadat existuje
+     */
+	public boolean containMetaDictionory (String nameOfFormat) {
+		return metaDictionaryList.containsKey(nameOfFormat);
 	}
 }

@@ -57,7 +57,7 @@ public class TextProcesor {
 	public String loadTextInput() {
 		scanner = new Scanner(System.in);
 		String answer = scanner.nextLine();
-		if (answer.equals("stop aplication")) {
+		if (answer.equals("stop application")) {
 			System.exit(0);
 		}
 		return answer;

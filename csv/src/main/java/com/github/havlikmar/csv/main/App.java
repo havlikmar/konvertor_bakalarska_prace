@@ -1,4 +1,4 @@
-package com.github.havlikmar.csv;
+package com.github.havlikmar.csv.main;
 
 /**
  * Hello world!
