@@ -33,7 +33,7 @@ public interface IFormat {
 	boolean loadFormat(Convertor convertor, String nameOfSource, char separator);
 	
 	/**
-     * Řídící metoda pro zpracování exportu souboru
+     * Ridici metoda pro zpracování exportu souboru
      * 
      * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
      * @return informace zda se soubor exportoval nebo ne

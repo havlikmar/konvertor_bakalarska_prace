@@ -29,6 +29,7 @@ public class FileExporter {
      * Konstruktor třídy FileExporter pro dimensionálni tabulku
      * 
      * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
+     * @param	nameOfSource	název souboru
      */
 	public FileExporter(Convertor convertor, String nameOfSource) {
 		this.convertor = convertor;

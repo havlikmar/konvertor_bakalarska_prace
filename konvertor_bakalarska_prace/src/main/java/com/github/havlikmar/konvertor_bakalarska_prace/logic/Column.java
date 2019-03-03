@@ -16,7 +16,7 @@ public class Column {
 	private ArrayList<String> valueList;
 	
 	/**
-     * Konstruktor pro vytvoření instance Column
+     * Konstruktor pro vytvoření instance třídy Column
      * 
      * @param	name	název sloupec
      */
@@ -27,7 +27,7 @@ public class Column {
 	}
 	
 	/**
-     * Metoda přidání metadat
+     * Metoda pro přidání metadat
      * 
      * @param	name	název metadat
      * @param	value	hodnota metadat
@@ -39,7 +39,7 @@ public class Column {
 	}
 	
 	/**
-     * Metoda přidání hodnoty ve sloupci
+     * Metoda pro přidání hodnoty ve sloupci
      * 
      * @param	value	přidaná hodnota
      */
@@ -48,7 +48,7 @@ public class Column {
 	}
 	
 	/**
-     * Metoda pro záskání hodnot ze sloupce
+     * Metoda pro získání hodnot ze sloupce
      * 
      * @return	hodnoty ve sloupci
      */
@@ -57,7 +57,7 @@ public class Column {
 	}
 	
 	/**
-     * Metoda záskání názvu sloupce
+     * Metoda pro získání názvu sloupce
      * 
      * @return	název sloupce
      */

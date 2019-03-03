@@ -11,7 +11,7 @@ import com.github.havlikmar.konvertor_bakalarska_prace.logic.Table;
 import com.opencsv.CSVReader;
 
 /**
- * Třída LoadFormat je zodpovědná načítání souborů.
+ * Třída LoadFormat je zodpovědná za načítání souborů.
  * 
  * @author     Martin Havlík
  * @version    2.3.2019
@@ -24,11 +24,12 @@ public class LoaderFormat {
 	private String metaDictionary = "metaDictionaryCSVM.csv";
 	
 	/**
-     * Konverot třídy loadFormat
+     * Konstruktor třídy loadFormat
      * 
      * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
      * @param	nameOfSource	Název souboru, který chceme načíst do vnitřní paměti
      * @param	separator	použitý separator, pro rozdělení řádku CSV na objekty
+     * @param	name	název formátu
      */
 	public LoaderFormat (Convertor convertor, String nameOfSource, char separator, String name) {
 		this.convertor = convertor;

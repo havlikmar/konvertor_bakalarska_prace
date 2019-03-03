@@ -10,6 +10,12 @@ import com.github.havlikmar.konvertor_bakalarska_prace.logic.IFormat;
 import com.github.havlikmar.konvertor_bakalarska_prace.logic.Metadata;
 import com.github.havlikmar.konvertor_bakalarska_prace.logic.Table;
 
+/**
+ * Třída CsvmNor implementuje normalizovaný způsob reprezentace CSVM. 
+ * 
+ * @author     Martin Havlík
+ * @version    2.3.2019
+ */
 public class CsvmNor implements IFormat{
 	private Scanner scanner;
 	
@@ -26,6 +32,7 @@ public class CsvmNor implements IFormat{
      * Metoda pro samotnou implementaci zpracování exportu souboru
      * 
      * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
+     * @param	nameOfSource	název souboru
      * @return informace zda se soubor exportoval nebo ne
      */
 	public boolean saveOneFile (Convertor convertor, String nameOfSource) {
@@ -88,6 +95,9 @@ public class CsvmNor implements IFormat{
 				System.out.println("Zadejte jednoslovný unikátní název sloupce, který bude sloužit jako primární/cizí klíč");
 				nameOfColumn = loadTextInput().split("\\s")[0];
 				colummnIsNotCreated = convertor.getTable(thisFile).columnExist(nameOfColumn);
+				if (nameOfColumn.equals("")) {
+					colummnIsNotCreated = true;
+				}
 			}
 			
 			String nameOfFile = "";
@@ -96,6 +106,9 @@ public class CsvmNor implements IFormat{
 				System.out.println("Zadejte jednoslovny unikátní název nového souboru, bez přípony");
 				nameOfFile = loadTextInput().split("\\s")[0] + ".csv";
 				fileIsNotCreated = convertor.tableExist(nameOfFile);
+				if (nameOfFile.equals(".csv")) {
+					fileIsNotCreated = true;
+				}
 			}
 			
 			ArrayList<String[]> moveColumn = new ArrayList<String[]>();
@@ -284,7 +297,7 @@ public class CsvmNor implements IFormat{
 	}
 	
 	/**
-     * Řídící metoda pro zpracování exportu souboru
+     * Ridici metoda pro zpracování exportu souboru
      * 
      * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
      * @return informace zda se soubor exportoval nebo ne

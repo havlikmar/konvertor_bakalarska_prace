@@ -12,7 +12,7 @@ public class App {
 	private static TextProcesor procesor;
 	
 	/**
-     * Řídící metoda, z které se spouští aplikace
+     * Ridici metoda, z které se spouští aplikace
      * 
      * @param	args	parametry pro spuštění
      */

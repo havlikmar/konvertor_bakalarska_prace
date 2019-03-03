@@ -20,7 +20,7 @@ public class Convertor {
 	private HashMap<String, MetaDictionary> metaDictionaryList;
 	
 	/**
-     * Konstruktor pro vytvoření instance convertoru
+     * Konstruktor pro vytvoření instance třídy Convertor
      */
 	public Convertor(){
 		formatList = new HashMap<String, IFormat>();
@@ -62,7 +62,7 @@ public class Convertor {
 	/**
      * Metoda pro získání formátů
      * 
-     * @return   HashMap<String, IFormat> reprezentující formáty
+     * @return   reprezentující formáty
      */
 	public HashMap<String, IFormat> getFormats(){
 		return formatList;

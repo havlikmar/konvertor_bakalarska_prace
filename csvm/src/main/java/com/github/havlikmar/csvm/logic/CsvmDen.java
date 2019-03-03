@@ -1,21 +1,20 @@
 package com.github.havlikmar.csvm.logic;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import com.github.havlikmar.konvertor_bakalarska_prace.logic.Convertor;
 import com.github.havlikmar.konvertor_bakalarska_prace.logic.FormatType;
 import com.github.havlikmar.konvertor_bakalarska_prace.logic.IFormat;
 import com.github.havlikmar.konvertor_bakalarska_prace.logic.Metadata;
-import com.github.havlikmar.konvertor_bakalarska_prace.logic.Table;
-import com.opencsv.CSVReader;
 
+/**
+ * Třída CsvmDen implementuje denormalizovaný způsob reprezentace CSVM. 
+ * 
+ * @author     Martin Havlík
+ * @version    2.3.2019
+ */
 public class CsvmDen implements IFormat {
-	String metaDictionary = "metadictionary.csv";
 	private String updateTable;
 	private Scanner scanner;
 
@@ -51,40 +50,7 @@ public class CsvmDen implements IFormat {
 	}
 	
 	/**
-     * Metoda pro zpracování importu slovniku metadat
-     * 
-     * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
-     * @return informace zda se soubor importoval nebo ne
-     */
-	public boolean loadMetadata(Convertor convertor) {
-		try {
-			String directory = System.getProperty("user.dir") + "\\" + metaDictionary;
-			CSVReader importReader = new CSVReader(new FileReader(directory));
-			List<String[]> input = importReader.readAll();
-			String[] specific = new String[input.size()];
-			String[] general = new String[input.size()];
-			int size = 0;
-			for (String[] k: input) {
-				specific[size] = k[0];
-				general[size]= k[1];
-				size++;
-			}	
-			convertor.addMetadictionary(specific, general, getName());
-			importReader.close();
-			return true;
-		}
-		
-		catch (FileNotFoundException e) { 	
-			return false;
-		}
-		
-		catch (IOException e) {
-			return false;
-		}
-	}
-	
-	/**
-     * Řídící metoda pro zpracování exportu souboru
+     * Ridici metoda pro zpracování exportu souboru
      * 
      * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
      * @return informace zda se soubor exportoval nebo ne
