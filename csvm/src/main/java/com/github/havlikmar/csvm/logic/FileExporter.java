@@ -15,6 +15,7 @@ import com.opencsv.CSVWriter;
 public class FileExporter {
 	private Convertor convertor;
 	private String nameOfSource = "";
+	private boolean test = false;
 	
 	/**
      * Konstruktor třídy FileExporter pro tabulku faktu
@@ -26,6 +27,17 @@ public class FileExporter {
 	}
 	
 	/**
+     * Konstruktor třídy FileExporter pro tabulku faktu. Urceno pro testovani
+     * 
+     * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
+     * @param	test	Urceni zda jde o testovaci metodu
+     */
+	public FileExporter(Convertor convertor, boolean test) {
+		this.convertor = convertor;
+		this.test = test;
+	}
+	
+	/**
      * Konstruktor třídy FileExporter pro dimensionálni tabulku
      * 
      * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
@@ -34,6 +46,19 @@ public class FileExporter {
 	public FileExporter(Convertor convertor, String nameOfSource) {
 		this.convertor = convertor;
 		this.nameOfSource = nameOfSource;
+	}
+	
+	/**
+     * Konstruktor třídy FileExporter pro dimensionálni tabulku. Urceno pro testovani
+     * 
+     * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
+     * @param	nameOfSource	název souboru
+     * @param	test	Urceni zda jde o testovaci metodu
+     */
+	public FileExporter(Convertor convertor, String nameOfSource, boolean test) {
+		this.convertor = convertor;
+		this.nameOfSource = nameOfSource;
+		this.test = test;
 	}
 	
 	/**
@@ -49,6 +74,9 @@ public class FileExporter {
 			String exportName = "export_" + nameOfSource;
 			ArrayList<String> header = convertor.getTable(nameOfSource).getColumns();
 			String directory = System.getProperty("user.dir") + "\\" + exportName;
+			if (test) {
+				directory = System.getProperty("user.dir") + "\\" + "src\\main\\resources\\test\\testExport.csv";
+			}
 			CSVWriter exportWriter = new CSVWriter(new FileWriter(directory));
 			ArrayList<String[]> exportData = new ArrayList<String[]>();
 			for (String i: header) {

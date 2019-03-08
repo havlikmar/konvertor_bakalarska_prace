@@ -22,6 +22,7 @@ public class LoaderFormat {
 	private char separator;
 	private String name;
 	private String metaDictionary = "metaDictionaryCSVM.csv";
+	private boolean test = false;
 	
 	/**
      * Konstruktor třídy loadFormat
@@ -39,6 +40,23 @@ public class LoaderFormat {
 	}
 	
 	/**
+     * Konstruktor třídy loadFormat pro testováni
+     * 
+     * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
+     * @param	nameOfSource	Název souboru, který chceme načíst do vnitřní paměti
+     * @param	separator	použitý separator, pro rozdělení řádku CSV na objekty
+     * @param	name	název formátu
+     * @param	test	rozlišení že jde o test
+     */
+	public LoaderFormat (Convertor convertor, String nameOfSource, char separator, String name, boolean test) {
+		this.convertor = convertor;
+		this.nameOfSource = nameOfSource;
+		this.separator = separator;
+		this.name = name;
+		this.test = test;
+	}
+	
+	/**
      * Metoda pro zpracování importu slovniku metadat
      * 
      * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
@@ -46,6 +64,9 @@ public class LoaderFormat {
      */
 	public boolean loadMetadata(Convertor convertor) {
 		try {
+			if (test) {
+				metaDictionary = "src\\main\\resources\\meta\\metaDictionaryCSVM.csv";
+			}
 			if (convertor.containMetaDictionory(name)) {
 				return true;
 			}
@@ -128,12 +149,10 @@ public class LoaderFormat {
 			return true;
 		}
 		catch (FileNotFoundException e) { 	
-			System.out.println(e);
 			return false;
 		}
 		
 		catch (IOException e) {
-			System.out.println(e);
 			return false;
 		}
 	}

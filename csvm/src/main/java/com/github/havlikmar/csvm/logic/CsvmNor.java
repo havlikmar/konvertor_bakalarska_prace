@@ -41,6 +41,19 @@ public class CsvmNor implements IFormat{
 	}
 	
 	/**
+     * Metoda pro samotnou implementaci zpracování exportu souboru. Slouzi k testovani
+     * 
+     * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
+     * @param	nameOfSource	název souboru
+     * @param	test	informace, ze jde o testovani
+     * @return informace zda se soubor exportoval nebo ne
+     */
+	public boolean saveOneFile (Convertor convertor, String nameOfSource, boolean test) {
+		FileExporter fileExporter = new FileExporter(convertor, nameOfSource, true);
+		return fileExporter.exportFile();
+	}
+	
+	/**
      * Metoda pro změnu ArrayListu na pole Stringů
      * 
      * @param	list	Vstupní ArrayList
@@ -297,6 +310,20 @@ public class CsvmNor implements IFormat{
 	}
 	
 	/**
+     * Metoda pro uložení daného souboru do vnitřní paměti. Slouží pro potřeby testů
+     * 
+     * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
+     * @param	nameOfSource	Název souboru, který chceme načíst do vnitřní paměti
+     * @param	separator	použitý separator, pro rozdělení řádku CSV na objekty
+     * @param	test		rozlišen, že jde o test
+     * @return informace zda se soubor načetl nebo ne
+     */
+	public boolean loadFormat(Convertor convertor, String nameOfSource, char separator, boolean test) {
+		LoaderFormat loaderClass = new LoaderFormat(convertor, nameOfSource, separator, getName(), true);
+		return loaderClass.load();
+	}
+	
+	/**
      * Ridici metoda pro zpracování exportu souboru
      * 
      * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
@@ -318,6 +345,43 @@ public class CsvmNor implements IFormat{
 					Set<String> setOfTable = convertor.getTables();	
 					for (String nameOfTable: setOfTable) {
 						if (!saveOneFile(convertor, nameOfTable)) {
+							return false;
+						}
+					}
+					return true;
+				}
+				return false;
+			}
+		}
+		
+		catch (Exception e) {
+			return false;	
+		}
+	}
+	
+	/**
+     * Ridici metoda pro zpracování exportu souboru. Urceno pro testovani
+     * 
+     * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
+     * @param	test	informace, ze jde o testovaci metodu
+     * @return informace zda se soubor exportoval nebo ne
+     */
+	public boolean saveFormat(Convertor convertor, boolean test) {
+		try {
+			if (convertor.getFormat(FormatType.IMPORT).isNormalize()) {
+				Set<String> setOfTable = convertor.getTables();	
+				for (String nameOfTable: setOfTable) {
+					if (!saveOneFile(convertor, nameOfTable, true)) {
+						return false;
+					}
+				}
+				return true;
+				
+			} else {
+				if (normalizationControl(convertor)) {
+					Set<String> setOfTable = convertor.getTables();	
+					for (String nameOfTable: setOfTable) {
+						if (!saveOneFile(convertor, nameOfTable, true)) {
 							return false;
 						}
 					}

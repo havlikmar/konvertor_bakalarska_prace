@@ -60,6 +60,15 @@ public class Convertor {
 	}
 	
 	/**
+     * Metoda pro získání názvů slovníků metadat
+     * 
+     * @return   názvy slovníků metadat
+     */
+	public Set<String> getMetadictionaries(){
+		return metaDictionaryList.keySet();
+	}
+	
+	/**
      * Metoda pro získání formátů
      * 
      * @return   reprezentující formáty
@@ -84,6 +93,24 @@ public class Convertor {
      */
 	public void setEndFormat (String endFormat) {
 		this.endFormat = endFormat;
+	}
+	
+	/**
+     * Metoda pro ziskani nazvu cílového formátu
+     * 
+     * @return	nazev cíloveho formátu
+     */
+	public String getEndFormat () {
+		return endFormat;
+	}
+	
+	/**
+     * Metoda pro ziskani nazvu cílového formátu
+     * 
+     * @return	nazev cíloveho formátu
+     */
+	public String getStartFormat () {
+		return startFormat;
 	}
 	
 	/**

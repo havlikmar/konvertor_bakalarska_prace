@@ -143,6 +143,30 @@ public class CsvDen implements IFormat {
 	}
 	
 	/**
+     * Ridici metoda pro zpracování exportu souboru. Slouží pro testování
+     * 
+     * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
+     * @param	test	Rozlišení že jde o testovací metodu
+     * @return informace zda se soubor exportoval nebo ne
+     */
+	public boolean saveFormat(Convertor convertor, boolean test) {
+		try {
+			if (!convertor.getFormat(FormatType.IMPORT).isNormalize()) {
+				return saveOneFile(convertor, true);
+			} else {
+				if (denormalization(convertor)) {
+					return saveOneFile(convertor, true);
+				}
+				return false;
+			}
+		}
+		
+		catch (Exception e) {
+			return false;	
+		}
+	}
+	
+	/**
      * Metoda pro zjištění zda se daný sloupec vyskytuje v hlavní tabulce (tabulce faktů)
      * 
      * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
@@ -196,6 +220,18 @@ public class CsvDen implements IFormat {
      */
 	public boolean saveOneFile(Convertor convertor) {
 		FileExporter fileExporter = new FileExporter(convertor);
+		return fileExporter.exportFile();
+	}
+	
+	/**
+     * Metoda pro samotnou implementaci zpracování exportu souboru. Je určena pro implementaci testování
+     * 
+     * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
+     * @param	test rozlišení, že jde o testovací metodu
+     * @return informace zda se soubor exportoval nebo ne
+     */
+	public boolean saveOneFile(Convertor convertor, boolean test) {
+		FileExporter fileExporter = new FileExporter(convertor, true);
 		return fileExporter.exportFile();
 	}
 	

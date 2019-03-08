@@ -93,4 +93,14 @@ public class Column {
 	public Set<String> getMetadatas() {
 		return metadataList.keySet();
 	}
+	
+	/**
+     * Metoda pro nahrazeni hodnoty
+     * 
+     * @param 	name 	hodnota
+     * @param	index	umisteni hodnoty
+     */
+	public void switchValue(String name, int index) {
+		valueList.set(index, name);
+	}
 }

@@ -15,6 +15,7 @@ import com.opencsv.CSVWriter;
 public class FileExporter {
 	private Convertor convertor;
 	private String nameOfSource = "";
+	private boolean test = false;
 	
 	/**
      * Konstruktor třídy FileExporter pro tabulku faktů
@@ -37,6 +38,30 @@ public class FileExporter {
 	}
 	
 	/**
+     * Konstruktor třídy FileExporter pro dimenzionální tabulku a testovani
+     * 
+     * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
+     * @param	nameOfSource	Název souboru
+     * @param	test	Rozlišení že se testuje
+     */
+	public FileExporter(Convertor convertor, String nameOfSource, boolean test) {
+		this.convertor = convertor;
+		this.nameOfSource = nameOfSource;
+		this.test = test;
+	}
+	
+	/**
+     * Konstruktor třídy FileExporter pro testování
+     * 
+     * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
+     * @param	test	Rozlišení že se testuje
+     */
+	public FileExporter(Convertor convertor, boolean test) {
+		this.convertor = convertor;
+		this.test = test;
+	}
+	
+	/**
      * Metoda pro export souborů
      * 
      * @return informace zda se soubor načetl
@@ -51,6 +76,9 @@ public class FileExporter {
 			String[] headerList = new String[header.size()];
 			headerList = changeToStringArray(header);
 			String directory = System.getProperty("user.dir") + "\\" + exportName;
+			if (test) {
+				directory = System.getProperty("user.dir") + "\\" + "src\\main\\resources\\test\\testExport.csv";
+			}
 			CSVWriter exportWriter = new CSVWriter(new FileWriter(directory));
 			exportWriter.writeNext(headerList);
 			ArrayList<String[]> exportData = new ArrayList<String[]>();

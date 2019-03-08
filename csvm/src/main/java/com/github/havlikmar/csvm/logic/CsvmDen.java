@@ -50,6 +50,20 @@ public class CsvmDen implements IFormat {
 	}
 	
 	/**
+     * Metoda pro uložení daného souboru do vnitřní paměti. Slouží k testování
+     * 
+     * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
+     * @param	nameOfSource	Název souboru, který chceme načíst do vnitřní paměti
+     * @param	separator	použitý separator, pro rozdělení řádku CSV na objekty
+     * @param	test		rozlišení, že jde o test
+     * @return informace zda se soubor načetl nebo ne
+     */
+	public boolean loadFormat(Convertor convertor, String nameOfSource, char separator, boolean test) {
+		LoaderFormat loaderClass = new LoaderFormat(convertor, nameOfSource, separator, getName(), true);
+		return loaderClass.load();
+	}
+	
+	/**
      * Ridici metoda pro zpracování exportu souboru
      * 
      * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
@@ -73,6 +87,30 @@ public class CsvmDen implements IFormat {
 	}
 	
 	/**
+     * Ridici metoda pro zpracování exportu souboru. Slouží k testovani
+     * 
+     * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
+     * @param	test	rozlišeni že jde o testovací metodu
+     * @return informace zda se soubor exportoval nebo ne
+     */
+	public boolean saveFormat(Convertor convertor, boolean test) {
+		try {
+			if (!convertor.getFormat(FormatType.IMPORT).isNormalize()) {
+				return saveOneFile(convertor, true);
+			} else {
+				if (denormalization(convertor)) {
+					return saveOneFile(convertor, true);
+				}
+				return false;
+			}
+		}
+		
+		catch (Exception e) {
+			return false;	
+		}
+	}
+	
+	/**
      * Metoda pro samotnou implementaci zpracování exportu souboru
      * 
      * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
@@ -80,6 +118,18 @@ public class CsvmDen implements IFormat {
      */
 	public boolean saveOneFile(Convertor convertor) {
 		FileExporter fileExporter = new FileExporter(convertor);
+		return fileExporter.exportFile();
+	}
+	
+	/**
+     * Metoda pro samotnou implementaci zpracování exportu souboru
+     * 
+     * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
+     * @param	test	rozlišeni že jde o testovaci metodu
+     * @return informace zda se soubor exportoval nebo ne
+     */
+	public boolean saveOneFile(Convertor convertor, boolean test) {
+		FileExporter fileExporter = new FileExporter(convertor, true);
 		return fileExporter.exportFile();
 	}
 	

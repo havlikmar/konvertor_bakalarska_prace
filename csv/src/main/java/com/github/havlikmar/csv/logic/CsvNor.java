@@ -254,6 +254,43 @@ public class CsvNor implements IFormat{
 			return false;	
 		}
 	}
+		
+	/**
+	* Ridici metoda pro zpracování exportu souboru. Slouží pro testování
+	     * 
+	     * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
+	     * @param	test	Rozlišení že jde o testovací metodu
+	     * @return informace zda se soubor exportoval nebo ne
+	     */
+	public boolean saveFormat(Convertor convertor, boolean test) {		
+		try {
+			if (convertor.getFormat(FormatType.IMPORT).isNormalize()) {
+				Set<String> setOfTable = convertor.getTables();	
+				for (String nameOfTable: setOfTable) {
+					if (!saveOneFile(convertor, nameOfTable, true)) {
+						return false;
+					}
+				}
+				return true;
+				
+			} else {
+				if (normalizationControl(convertor)) {
+					Set<String> setOfTable = convertor.getTables();	
+					for (String nameOfTable: setOfTable) {
+						if (!saveOneFile(convertor, nameOfTable, true)) {
+							return false;
+						}
+					}
+					return true;
+				}
+				return false;
+			}
+		}
+	
+		catch (Exception e) {
+			return false;	
+		}
+	}
 	
 	/**
      * Metoda pro samotnou implementaci zpracování exportu souboru
@@ -264,6 +301,19 @@ public class CsvNor implements IFormat{
      */
 	public boolean saveOneFile (Convertor convertor, String nameOfSource) {
 		FileExporter fileExporter = new FileExporter(convertor, nameOfSource);
+		return fileExporter.exportFile();
+	}
+	
+	/**
+     * Metoda pro samotnou implementaci zpracování exportu souboru. Metoda slouzi k testovani
+     * 
+     * @param	convertor	Odkaz na třídu Convertor,která je zodpovědná za propojení s vnitřní datovou reprezentací
+     * @param	nameOfSource	Název souboru
+     * @param	test	Rozliseni ze metoda slouzi k testovani
+     * @return informace zda se soubor exportoval nebo ne
+     */
+	public boolean saveOneFile (Convertor convertor, String nameOfSource, boolean test) {
+		FileExporter fileExporter = new FileExporter(convertor, nameOfSource, true);
 		return fileExporter.exportFile();
 	}
 	

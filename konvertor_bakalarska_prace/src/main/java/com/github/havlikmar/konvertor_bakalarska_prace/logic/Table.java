@@ -77,6 +77,7 @@ public class Table {
      */
 	public void removeColumn(String nameOfColumn) {
 		this.getColumns().remove(nameOfColumn);
+		columnMap.remove(nameOfColumn);
 	}
 	
 	/**
