@@ -121,13 +121,26 @@ public class FileExporter {
 			}
 			
 			exportWriter.writeNext(metaList);
-			
+						
 			metaList = new String[header.size() + 1];
 			count = 1;
 			metaList[0] = "#WIDTH";
 			for (String head: header) {
 				if (convertor.getTable(nameOfSource).getColumn(head).containMetadata("max-width")) {
 					metaList[count] = convertor.getTable(nameOfSource).getColumn(head).getMetadata("max-width").getMetadata().get(0);
+				} else {
+					metaList[count] = "";
+				}
+				count++;
+			}
+			
+			exportWriter.writeNext(metaList);
+			
+			metaList[0] = "#META";
+			count = 1;
+			for (String head: header) {
+				if (convertor.getTable(nameOfSource).getColumn(head).containMetadata("meta-visibility")) {
+					metaList[count] = convertor.getTable(nameOfSource).getColumn(head).getMetadata("meta-visibility").getMetadata().get(0);
 				} else {
 					metaList[count] = "";
 				}

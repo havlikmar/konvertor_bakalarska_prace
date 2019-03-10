@@ -15,6 +15,7 @@ public class Table {
 	private HashMap<String, Column> columnMap;
 	private ArrayList<String> columnList;
 	private String name;
+	private ArrayList<Integer> ancestors;
 	
 	/**
      * Konstruktor pro vytvoření instance třídy Table
@@ -25,7 +26,36 @@ public class Table {
 		metadataList = new HashMap<String, Metadata>();
 		columnMap = new HashMap<String, Column>();
 		columnList = new ArrayList<String>();
+		ancestors = new ArrayList<Integer>();
 		this.name = name;
+	}
+	
+	/**
+     * Metoda pro přidání pozice rodice radku
+     * 
+     * @param	ancestor	poradi radku rodice
+     */
+	public void addAncestor(int ancestor) {
+		ancestors.add(ancestor);
+	}
+	
+	/**
+     * Metoda pro získání indexů rodičů řádků
+     * 
+     * @return	indexy rodiče řádků
+     */
+	public ArrayList<Integer> getAncestors() {
+		return ancestors;
+	}
+	
+	/**
+     * Metoda pro nahrazeni pozice rodice radku
+     * 
+     * @param	ancestor	poradi radku rodice
+     * @param	index	poradi potomka v radku
+     */
+	public void switchAncestor(int ancestor, int index) {
+		ancestors.set(index, ancestor);
 	}
 	
 	/**

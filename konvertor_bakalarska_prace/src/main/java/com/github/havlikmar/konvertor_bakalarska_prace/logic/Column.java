@@ -11,7 +11,7 @@ import java.util.Set;
  * @version    2.3.2019
  */
 public class Column {
-	String name;
+	private String name;
 	private HashMap<String, Metadata> metadataList;
 	private ArrayList<String> valueList;
 	

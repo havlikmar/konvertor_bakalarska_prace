@@ -42,6 +42,11 @@ public class TableTest {
     	table.removeColumn("test");
     	assertTrue(table.getColumns().isEmpty());
     	assertTrue(!table.columnExist("test"));
+    	assertTrue(table.getAncestors().isEmpty());
+    	table.addAncestor(8);
+    	assertTrue(table.getAncestors().size() == 1);
+    	table.switchAncestor(2, 0);
+    	assertTrue(table.getAncestors().size() == 1);
     }
     
     /**

@@ -145,9 +145,13 @@ public class CsvmNor implements IFormat{
 			}
 			
 			if (choose) {
-				System.out.println("Zadejte jednoslovný datový typ nového primárního klíče");
+				System.out.println("Zadejte popis noveho souboru");
 				ArrayList<String> arrayList = new ArrayList<String>();
-				arrayList.add(loadTextInput().split("\\s")[0]);
+				arrayList.add(loadTextInput());
+				convertor.getTable(nameOfFile).addMetadata("description-file", arrayList);
+				
+				arrayList = new ArrayList<String>();
+				arrayList.add("NUMERIC");
 				convertor.getTable(nameOfFile).getColumn(nameOfColumn).addMetadata("dataType", arrayList);
 				convertor.getTable(thisFile).getColumn(nameOfColumn).addMetadata("dataType", arrayList);
 				

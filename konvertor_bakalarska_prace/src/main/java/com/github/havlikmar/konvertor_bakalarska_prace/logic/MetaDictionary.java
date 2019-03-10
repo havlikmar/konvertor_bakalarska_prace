@@ -3,7 +3,7 @@ package com.github.havlikmar.konvertor_bakalarska_prace.logic;
 import java.util.HashMap;
 
 /**
- * Třída Matadata je třída představující slovník metadat
+ * Třída MetaDictionary je třída představující slovník metadat
  * 
  * @author     Martin Havlík
  * @version    2.3.2019
