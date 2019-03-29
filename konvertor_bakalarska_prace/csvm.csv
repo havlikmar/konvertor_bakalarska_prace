@@ -1,8 +1,0 @@
-24,Xsara,VTS,1
-38,Clio,-,2
-12,Coupé,16VT,3
-45,306,S16,4
-"#TITLE","Vehicle data"
-"#HEADER","ID","MODEL","TYPE","ID_MANUFACTURE"
-"#TYPE","NUMERIC","TEXT","TEXT","NUMERIC"
-"#WIDTH","50","60","70","50"
