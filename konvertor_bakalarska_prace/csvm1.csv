@@ -1,8 +1,0 @@
-1,Citroen
-2,Renault
-3,Fiat
-4,Peugeot
-"#TITLE","Car producer"
-"#HEADER","ID","MANUFACTURER"
-"#TYPE","NUMERIC","TEXT"
-"#WIDTH","50","50"
