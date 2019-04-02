@@ -19,6 +19,7 @@ public class App
     	System.out.println( "Tento modul se spouští skrz externí hlavní aplikaci" );
         System.out.println( "Pro připojenín modulu nahrajte JAR soubor tohoto modulu do složky kde se nachází JAR soubor hlavní aplikace" );
         System.out.println( "Hlavní aplikaci spuste následujícím příkazem z příkazové řádky:" );
-        System.out.println( "java -cp \"./*\" com.github.havlikmar.konvertor_bakalarska_prace.main.App" );
+        System.out.println( "java -Dfile.encoding=UTF-8 -cp \"./*\" com.github.havlikmar.konvertor_bakalarska_prace.main.App" );
+        System.out.println( "nebo použijte soubor execute.bat" );
     }
 }

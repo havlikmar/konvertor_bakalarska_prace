@@ -57,8 +57,8 @@ public class CsvNor implements IFormat{
 			boolean isSplit = false;
 			String[] answer = {};
 			while (!isSplit) {
-				System.out.println("Napište sloupce z hlavního souboru z kterých chcete vytvořit novou dimensionální tabulku.");
-				System.out.println("Formát je ve tvaru: nazevSloupce nazevSloupce ... ...");
+				System.out.println("Napište sloupce z hlavního souboru, z kterých chcete vytvořit novou dimensionální tabulku.");
+				System.out.println("Formát je ve tvaru: názevSloupce názevSloupce ... ...");
 				System.out.println("Hlavní soubor: " + getMainFileColumn(convertor));
 				answer = loadTextInput().split("\\s");
 				if (isInMainFile (answer, convertor)) {
@@ -80,7 +80,7 @@ public class CsvNor implements IFormat{
 			String nameOfFile = "";
 			boolean fileIsNotCreated = true;
 			while (fileIsNotCreated) {
-				System.out.println("Zadejte jednoslovny unikátní název nového souboru, bez přípony");
+				System.out.println("Zadejte jednoslovný unikátní název nového souboru, bez přípony");
 				nameOfFile = loadTextInput().split("\\s")[0] + ".csv";
 				fileIsNotCreated = convertor.tableExist(nameOfFile);
 				if (nameOfFile.equals(".csv")) {

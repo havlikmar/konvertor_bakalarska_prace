@@ -83,7 +83,7 @@ public class TextProcesor {
 				}
 			}
 			outputText = "";
-			outputText = "Vybrany format neni podporovan. ";
+			outputText = "Vybraný formát není podporován. ";
 		}
 		return inputText;
 	}
@@ -107,7 +107,7 @@ public class TextProcesor {
 			}
 			boolean isSeparator = false;
 			String separator = ",";
-			String output = "Zadejte separator.";
+			String output = "Zadejte separátor.";
 			while (!isSeparator) {
 				System.out.println(output);
 				separator = loadTextInput();
@@ -134,7 +134,7 @@ public class TextProcesor {
 		if (convertor.getFormat(FormatType.IMPORT).isNormalize()) {
 			boolean anotherFile = true;
 			while (anotherFile) {
-				selectSource("Zadejte název vedlejšího (dimensionálního) vstupniho souboru.", FormatType.IMPORT);
+				selectSource("Zadejte název vedlejšího (dimensionálního) vstupního souboru.", FormatType.IMPORT);
 				boolean isCorect = false;
 				while (!isCorect) {
 					System.out.println("Přejete si přidat další vedlejší formát. [Y/N]");
@@ -156,14 +156,14 @@ public class TextProcesor {
      * 
      */
 	public void textLogic() {
-		convertor.setStartFormat(selectFormat("Vyberte vstupni format."));
-		convertor.setEndFormat(selectFormat("Vyberte vystupni format."));
-		selectSource("Zadejte název hlavního vstupniho souboru.", FormatType.IMPORT);
+		convertor.setStartFormat(selectFormat("Vyberte vstupní formát."));
+		convertor.setEndFormat(selectFormat("Vyberte výstupní formát."));
+		selectSource("Zadejte název hlavního vstupního souboru.", FormatType.IMPORT);
 		selectOtherSources();
 		if (convertor.getFormat(FormatType.EXPORT).saveFormat(convertor)) {
 			System.out.println("Transformace proběhla v pořádku");
 		} else {
-			System.out.println("Při transforamci došlo k nečekané chybě");
+			System.out.println("Při transformaci došlo k nečekané chybě");
 		}
 	}	
 }
