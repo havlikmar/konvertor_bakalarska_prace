@@ -11,7 +11,7 @@ Pro usnadnění spouštění byl přidán do složky „spustitelný archiv“ s
 <h2>Práce s aplikací</h2>
 Aplikace se ovládá z příkazové řádky. V této části jsou popsány jednotlivé kroky zadávání příkazů. V případě jakýchkoliv problémů se aplikace ukončí pomocí příkazu „stop application“. 
 Na výpisu č. 1, lze vidět postup výběru formátů.</br>
-
+</br>
 Výpis 1: Zadávání výběru formátů. Zdroj (Autor)</br>
 1 Vyberte vstupní formát. Podporované formáty jsou: CsvmDen CsvDen CsvmNor CsvNor</br>
 2 CsvmDen</br>
