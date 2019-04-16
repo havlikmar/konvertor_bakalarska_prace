@@ -19,7 +19,7 @@ Výpis 1: Zadávání výběru formátů. Zdroj (Autor)</br>
 4 CsvDen</br>
 </br>
 Při zadávání příkazů se opíše požadovaný název formátu ze seznamu. Výběr hlavního souboru lze vidět na výpisu č. 2.</br>
-
+</br>
 Výpis 2: Zadávání názvu hlavního souboru. Zdroj (Autor)</br>
 1 Zadejte název hlavního vstupního souboru s příponou.</br>
 2 csvm.csv</br>
