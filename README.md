@@ -1,7 +1,7 @@
 # konvertor_bakalarska_prace
 Tento projekt je součástí bakalářské práce Aplikace na konverzi mezi různými způsoby reprezentace statistických dat ve formátu CSV, napsané Martinem Havlíkem v akademickém roce 2018/2019 na Vysoké škole ekonomické v Praze.</br>
 
-<h2>Spuštění apikace</h2>
+<h2>Spuštění aplikace</h2>
 Sestavená aplikace se dá spustit z příkazové řádky ze složky „spustitelný archiv“. Pokud se spouští z ní, musí být všechny moduly, hlavní aplikace, soubory, které chceme transformovat, popř. další konfigurační soubory, jako slovníky metadat v jedné složce.</br>
 </br>
 Z důvodu konfigurace je potřeba zadat příkaz: „java -Dfile.encoding=UTF-8 -cp "*" com/github/havlikmar/konvertor_bakalarska_prace/main/App“. </br>
