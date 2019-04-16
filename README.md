@@ -17,7 +17,7 @@ Výpis 1: Zadávání výběru formátů. Zdroj (Autor)</br>
 2 CsvmDen</br>
 3 Vyberte výstupní formát. Podporované formáty jsou: CsvmDen CsvDen CsvmNor CsvNor</br>
 4 CsvDen</br>
-
+</br>
 Při zadávání příkazů se opíše požadovaný název formátu ze seznamu. Výběr hlavního souboru lze vidět na výpisu č. 2.</br>
 
 Výpis 2: Zadávání názvu hlavního souboru. Zdroj (Autor)</br>
