@@ -134,7 +134,7 @@ public class TextProcesor {
 		if (convertor.getFormat(FormatType.IMPORT).isNormalize()) {
 			boolean anotherFile = true;
 			while (anotherFile) {
-				selectSource("Zadejte název vedlejšího (dimensionálního) vstupního souboru.", FormatType.IMPORT);
+				selectSource("Zadejte název vedlejšího (dimensionálního) vstupního souboru s příponou.", FormatType.IMPORT);
 				boolean isCorect = false;
 				while (!isCorect) {
 					System.out.println("Přejete si přidat další vedlejší formát. [Y/N]");

@@ -75,8 +75,14 @@ public class CsvmNor implements IFormat{
      */
 	public String getMainFileColumn(Convertor convertor) {
 		String mainFileColumn = "";
+		int position = 0;
 		for (String column: convertor.getTable(convertor.getMainFile()).getColumns()) {
-			mainFileColumn = mainFileColumn + " " + column;
+			if (position == 0) {
+				mainFileColumn = mainFileColumn + column;
+			}else{
+				mainFileColumn = mainFileColumn + ", " + column;
+			}
+			position++;
 		}
 		return mainFileColumn;
 	}

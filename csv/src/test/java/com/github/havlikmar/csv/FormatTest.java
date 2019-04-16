@@ -28,7 +28,7 @@ public class FormatTest {
     	assertTrue(!den.isNormalize());
     	assertTrue(den.loadFormat(convertor, "src\\main\\resources\\test\\test.csv", ','));
     	convertor.setMainFile("src\\main\\resources\\test\\test.csv");
-    	assertTrue(den.getMainFileColumn(convertor).equals(" idhod hodnota stapro_kod reprcen_cis reprcen_kod obdobiod obdobido uzemi_cis uzemi_kod uzemi_txt reprcen_txt"));
+    	assertTrue(den.getMainFileColumn(convertor).equals("idhod, hodnota, stapro_kod, reprcen_cis, reprcen_kod, obdobiod, obdobido, uzemi_cis, uzemi_kod, uzemi_txt, reprcen_txt"));
     	assertTrue(den.loadFormat(convertor, "src\\main\\resources\\test\\testDimenze.csv", ','));
    //	V nasledujim testu je chyba v Mavenu? JUnit test mi vrací, že je OK, Maven že chyba.
    // 	assertTrue(den.getOtherFileColumn(convertor).equals(" ﻿idhod hodnota"));
@@ -51,7 +51,7 @@ public class FormatTest {
     	assertTrue(nor.isNormalize());
     	assertTrue(nor.loadFormat(convertor, "src\\main\\resources\\test\\test.csv", ','));
     	convertor.setMainFile("src\\main\\resources\\test\\test.csv");
-    	assertTrue(nor.getMainFileColumn(convertor).equals(" idhod hodnota stapro_kod reprcen_cis reprcen_kod obdobiod obdobido uzemi_cis uzemi_kod uzemi_txt reprcen_txt"));
+    	assertTrue(nor.getMainFileColumn(convertor).equals("idhod, hodnota, stapro_kod, reprcen_cis, reprcen_kod, obdobiod, obdobido, uzemi_cis, uzemi_kod, uzemi_txt, reprcen_txt"));
     	assertTrue(nor.loadFormat(convertor, "src\\main\\resources\\test\\testDimenze.csv", ','));
     	String[] answer = new String[2];
     	answer[0] = "idhod";
