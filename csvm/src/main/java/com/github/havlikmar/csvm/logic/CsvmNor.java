@@ -95,7 +95,7 @@ public class CsvmNor implements IFormat{
 			while (!isSplit) {
 				System.out.println("Napište sloupce z hlavního souboru, z kterých chcete vytvořit novou dimensionální tabulku.");
 				System.out.println("Formát je ve tvaru: názevSloupce názevSloupce ... ...");
-				System.out.println("Hlavní soubor: " + getMainFileColumn(convertor));
+				System.out.println("Výpis sloupců z hlavního souboru: " + getMainFileColumn(convertor));
 				answer = loadTextInput().split("\\s");
 				if (isInMainFile (answer, convertor)) {
 					isSplit = true;
@@ -134,7 +134,7 @@ public class CsvmNor implements IFormat{
 			boolean choose = false;
 			while (continueRequest) {
 				System.out.println("Přejete si přidat metadata k primárnímu klíči. [Y/N]");
-				String decision = loadTextInput();
+				String decision = loadTextInput().toUpperCase();
 				switch (decision) {
 					case "Y": 	continueRequest = false;
 								choose = true;
@@ -280,7 +280,7 @@ public class CsvmNor implements IFormat{
 				return false;
 			}
 			System.out.println("Přejete si provést další úpravy. [Y/N]");
-			String answer = loadTextInput();
+			String answer = loadTextInput().toUpperCase();
 			switch (answer) {
 				case "Y": 	continueRequest = true;
 							break;

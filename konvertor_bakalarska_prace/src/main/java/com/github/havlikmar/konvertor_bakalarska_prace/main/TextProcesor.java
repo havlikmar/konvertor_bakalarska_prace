@@ -114,7 +114,7 @@ public class TextProcesor {
 				if (separator.length() == 1) {
 					isSeparator = true;
 				}
-				output = "Chybně zadaný separátor. Musí mít pouze jeden znak. " + output;
+				output = "Chybně zadaný separátor. Separátor musí mít pouze jeden znak. " + output;
 			}
 			
 			isCorect = convertor.getFormat(type).loadFormat(convertor, nameOfSource, separator.charAt(0));
@@ -138,7 +138,7 @@ public class TextProcesor {
 				boolean isCorect = false;
 				while (!isCorect) {
 					System.out.println("Přejete si přidat další vedlejší formát. [Y/N]");
-					String answer = loadTextInput();
+					String answer = loadTextInput().toUpperCase();
 					switch (answer) {
 						case "Y": 	isCorect = true;
 									break;
@@ -158,7 +158,7 @@ public class TextProcesor {
 	public void textLogic() {
 		convertor.setStartFormat(selectFormat("Vyberte vstupní formát."));
 		convertor.setEndFormat(selectFormat("Vyberte výstupní formát."));
-		selectSource("Zadejte název hlavního vstupního souboru.", FormatType.IMPORT);
+		selectSource("Zadejte název hlavního vstupního souboru s příponou.", FormatType.IMPORT);
 		selectOtherSources();
 		if (convertor.getFormat(FormatType.EXPORT).saveFormat(convertor)) {
 			System.out.println("Transformace proběhla v pořádku");

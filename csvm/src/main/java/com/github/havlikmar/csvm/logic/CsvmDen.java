@@ -182,9 +182,9 @@ public class CsvmDen implements IFormat {
 				String[] answer = {};
 				while (!isMerge) {
 					System.out.println("Napište sloupec z hlavního souboru a vedlejšího, mezi kterými chcete vytvořit spojení pro sjednocení do jednoho souboru.");
-					System.out.println("Formát je ve tvaru: názevSloupceHlavniSoubor názevSloupceVedlejsiSoubor");
-					System.out.println("Hlavní soubor: " + getMainFileColumn(convertor));
-					System.out.println("Vedlejší soubor: " + getOtherFileColumn(convertor));
+					System.out.println("Formát je ve tvaru: názevSloupceHlavníSoubor názevSloupceVedlejsíSoubor");
+					System.out.println("Výpis sloupců z hlavního souboru: " + getMainFileColumn(convertor));
+					System.out.println("Výpis sloupců z vedlejšího (dimenzionálního) souboru: " + getOtherFileColumn(convertor));
 					answer = loadTextInput().split("\\s");
 					if (answer.length == 2 && isInMainFile (answer, convertor) && isInOtherFile (answer, convertor)) {
 						isMerge = true;
