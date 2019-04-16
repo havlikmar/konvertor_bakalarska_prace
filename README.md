@@ -9,7 +9,7 @@ Z důvodu konfigurace je potřeba zadat příkaz: „java -Dfile.encoding=UTF-8 
 Pro usnadnění spouštění byl přidán do složky „spustitelný archiv“ soubor execute.bat, který umožňuje spuštění aplikace jedním klikem.</br>
 
 <h2>Práce s aplikací</h2>
-Aplikace se ovládá z příkazové řádky. V této kapitoly jsou popsány jednotlivé kroky zadávání příkazů. V případě jakýchkoliv problémů se aplikace ukončí pomocí příkazu „stop application“. 
+Aplikace se ovládá z příkazové řádky. V této části jsou popsány jednotlivé kroky zadávání příkazů. V případě jakýchkoliv problémů se aplikace ukončí pomocí příkazu „stop application“. 
 Na výpisu č. 1, lze vidět postup výběru formátů.</br>
 
 Výpis 1: Zadávání výběru formátů. Zdroj (Autor)</br>
